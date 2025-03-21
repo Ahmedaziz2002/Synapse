@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <title>Dashboard</title>
+    <style>
+body {
+    display: flex;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+.sidebar {
+    width: 200px;
+    background: #b5b9bd;
+    padding: 20px;
+    height: 100vh;
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    font-size: 22px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    padding: 10px;
+    transition: 0.3s ease-in-out;
+    text-decoration: none;
+    color: #333;
+}
+
+.sidebar ul li a i {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #007bff;
+}
+
+.sidebar ul li a:hover i {
+    color: #0056b3;
+}
+
+.sidebar ul li a:hover {
+    background-color: #e9ecef;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+.sidebar ul li.active a {
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+}
+
+.sidebar ul li.active a i {
+    color: white;
+}
+
+/* Categories Dropdown */
+.category-item {
+    position: relative;
+}
+
+.categories-list {
+    display: none;
+    list-style: none;
+    padding-left: 20px;
+    margin-top: 5px;
+    background: #c4c9cd;
+    border-radius: 5px;
+}
+
+.categories-list li {
+    padding: 8px 0;
+}
+
+.categories-list a {
+    font-size: 14px;
+    color: #444;
+    font-weight: normal;
+    display: block;
+    padding: 5px 15px;
+}
+
+.categories-list a:hover {
+    background: #d1d5d9;
+    border-radius: 5px;
+}
+.product-card img {
+    width: 100%;
+    height: 180px; 
+    object-fit: cover; 
+    border-radius: 5px;  
+}
+
+
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>Synapse</h2>
+        <ul>
+            <li class="active">
+                <a href="{% url 'dashboard' %}">
+                    <i class="fas fa-tachometer-alt"></i> Home
+                </a>
+            </li>
+    
+            <li class="category-item">
+                <a href="#" class="toggle-categories">
+                    <i class="fas fa-list"></i> Categories
+                    <i class="fas fa-chevron-down"></i> 
+                </a>
+                <ul class="categories-list">
+                    <li><a href="#"><i class="fas fa-mobile-alt"></i> Electronics</a></li>
+                    <li><a href="#"><i class="fas fa-tshirt"></i> Fashion</a></li>
+                    <li><a href="#"><i class="fas fa-couch"></i> Home & Furniture</a></li>
+                    <li><a href="#"><i class="fas fa-car"></i> Automobiles</a></li>
+                </ul>
+            </li>
+    
+            <li><a href="{% url 'deals' %}"><i class="fas fa-tags"></i> Deals</a></li>
+            <li><a href="#"><i class="fas fa-shopping-cart"></i> Orders</a></li>
+            <li><a href="#"><i class="fas fa-shopping-bag"></i> Cart</a></li>
+            <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
+        </ul>
+    </aside>
+    
+    <main class="content">
+        <header>
+            <h1>Welcome, {{ user.username }}!</h1>
+        </header>
+    
+        <section class="trending">
+            <h2>Trending Items</h2>
+            <div class="products-grid">
+                {% load static %}
+
+                <div class="product-card">
+                    <img src="{% static 'images/shoes.webp' %}" alt="Shoes">
+                    <h3>Casual Shoes</h3>
+                    <p>$40.00</p>
+                </div>
+                
+                <div class="product-card">
+                    <img src="{% static 'images/headphones.jpg' %}" alt="Headphones">
+                    <h3>Wireless Headphones</h3>
+                    <p>$54.00</p>
+                </div>
+                
+                <div class="product-card">
+                    <img src="{% static 'images/apple-m2.jpg' %}" alt="Laptop">
+                    <h3>Apple M2 Laptop</h3>
+                    <p>$1,200.00</p>
+                </div>
+                
+            </div>
+        </section>
+        
+    
+        <section class="offers">
+            <div class="offer-card">Get 10% Off</div>
+            <div class="offer-card">Get 20% Off</div>
+        </section>
+    </main>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let toggleCategories = document.querySelector(".toggle-categories");
+        let categoriesList = document.querySelector(".categories-list");
+    
+        toggleCategories.addEventListener("click", function (event) {
+            event.preventDefault();
+            if (categoriesList.style.display === "block") {
+                categoriesList.style.display = "none";
+            } else {
+                categoriesList.style.display = "block";
+            }
+        });
+    });
+    </script>
+    
+</body>
+</html>

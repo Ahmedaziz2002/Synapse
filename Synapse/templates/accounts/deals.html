@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deals</title>
+    <style>
+header h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.deals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.deal-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+}
+
+.deal-card:hover {
+    transform: scale(1.05);
+}
+
+.deal-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.discount {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: red;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.price del {
+    color: #777;
+    font-size: 14px;
+}
+
+.buy-now {
+    background: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.buy-now:hover {
+    background: #0056b3;
+}
+
+    </style>
+</head>
+<body>
+{% load static %}
+{% block content %}
+    <header>
+        <h1>Exclusive Deals</h1>
+        <p>Get the best discounts on top products!</p>
+    </header>
+
+    <div class="deals-grid">
+        <div class="deal-card">
+            <span class="discount">-30%</span>
+            <img src="{% static 'images/smartphone.jpg' %}" alt="Product">
+            <h3>Smartphone</h3>
+            <p class="price"><del>$500</del> $350</p>
+            <button class="buy-now">Buy Now</button>
+        </div>
+
+        <div class="deal-card">
+            <span class="discount">-20%</span>
+            <img src="{% static 'images/gaming-laptop.webp' %}" alt="Product">
+            <h3>Gaming Laptop</h3>
+            <p class="price"><del>$1200</del> $960</p>
+            <button class="buy-now">Buy Now</button>
+        </div>
+
+        <div class="deal-card">
+            <span class="discount">-40%</span>
+            <img src="{% static 'images/headphones.jpg' %}" alt="Product">
+            <h3>Wireless Headphones</h3>
+            <p class="price"><del>$100</del> $60</p>
+            <button class="buy-now">Buy Now</button>
+        </div>
+    </div>
+{% endblock %}
+
+</body>
+</html>
