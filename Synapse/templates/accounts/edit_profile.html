@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <style>
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.edit-profile-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    text-align: center;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: 600;
+    color: #444;
+    text-align: left;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    background: #007bff;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+.profile-pic-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #007bff;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.profile-pic:hover {
+    transform: scale(1.1);
+}
+
+#profile-picture-input {
+    display: none;
+}
+
+    </style>
+</head>
+<body>
+
+    {% block content %}
+    <div class="edit-profile-container">
+        <h2>Edit Profile</h2>
+        
+        <div class="profile-pic-container">
+            <img src="{{ user.userprofile.get_profile_picture }}" alt="Profile Picture" class="profile-pic" id="profile-pic">
+        </div>
+    
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+    
+            <!-- Hidden Profile Picture Upload -->
+            <input type="file" id="profile-picture-input" name="profile_picture" accept="image/*">
+    
+            <label for="username">Username:</label>
+            <input type="text" name="username" value="{{ user.username }}" required>
+    
+            <label for="email">Email:</label>
+            <input type="email" name="email" value="{{ user.email }}" required>
+
+            <label for="password">New Password:</label>
+            <input type="password" name="password" placeholder="Enter New Password" required>
+
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" name="confirm_password" placeholder="Confirm  new Password" required>
+    
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('profile-pic').addEventListener('click', function() {
+            document.getElementById('profile-picture-input').click();
+        });
+    </script>
+    
+    {% endblock %}
+    
+</body>
+</html>

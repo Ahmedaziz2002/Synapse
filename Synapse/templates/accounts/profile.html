@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+
+.profile-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f4f4f4; /* Light gray background */
+}
+
+.profile-container {
+    background: #fff; /* White background */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    transition: transform 0.3s ease-in-out;
+}
+
+
+.profile-img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #007bff;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, border 0.3s;
+}
+
+.profile-img:hover {
+    transform: scale(1.05);
+    border-color: #0056b3;
+}
+
+#upload-input {
+    display: none;
+}
+
+.profile-info {
+    margin-top: 15px;
+}
+
+.profile-info h2 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.profile-info p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+
+.profile-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-actions .btn {
+    flex: 1;
+    padding: 10px 15px;
+    font-size: 14px;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+        margin: 5px;
+    transition: 0.3s;
+}
+
+.profile-actions .btn:hover {
+    background: #0056b3;
+}
+
+.logout-btn {
+    background: #dc3545;
+}
+
+.logout-btn:hover {
+    background: #b52a37;
+}
+
+    </style>
+</head>
+<body>
+    <div class="profile-page">
+        <div class="profile-container">
+            <h2>Profile Page</h2>
+    
+            <!-- Profile Picture -->
+            <form method="POST" enctype="multipart/form-data" id="profile-form">
+                {% csrf_token %}
+                <label for="upload-input">
+                    <img src="{% if user.userprofile.profile_picture %}{{ user.userprofile.profile_picture.url }}{% else %}/media/default.jpg{% endif %}" 
+                         alt="Profile Picture" class="profile-img" id="profile-img">
+                </label>
+                <input type="file" id="upload-input" name="profile_picture" accept="image/*" hidden>
+            </form>
+    
+            <div class="profile-info">
+                <h2>Username: {{ user.username }}</h2>
+                <p>Email: {{ user.email }}</p>
+            </div>
+        
+            <div class="profile-actions">
+                <a href="{% url 'edit_profile' %}" class="btn">Edit Profile</a>
+                <a href="{% url 'logout' %}" class="btn logout-btn">Logout</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById("profile-img").addEventListener("click", function() {
+            document.getElementById("upload-input").click();
+        });
+    
+        document.getElementById("upload-input").addEventListener("change", function() {
+            document.getElementById("profile-form").submit(); // Auto-submit form on file selection
+        });
+    </script>
+    
+  
+
+</body>
+</html>
