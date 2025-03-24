@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            text-align: center;
+            background-color: rgb(168, 112, 44);
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+        strong {
+            color: #222;
+        }
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    {% block content %}
+        <h2>Order Summary</h2>
+        {% if order %}
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <p><strong>Date Ordered:</strong> {{ order.created_at}}</p>
+            <p><strong>Total Amount:</strong> ${{ order.total_amount }}</p>
+            <p>Thank you for your order!</p>
+        {% else %}
+            <p>No orders found yet!</p>
+        {% endif %}
+        <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+    {% endblock %}
+</div>
+
+</body>
+</html>

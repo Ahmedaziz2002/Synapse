@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deals</title>
+    <title>Products by Category</title>
     <style>
-        body {
+        body{
             text-align: center;
             background-color: bisque;
             font-family: Arial, sans-serif;
         }
 
-        .products-container {
+        .products-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -20,7 +20,7 @@
         }
 
         .product-card {
-            width: 350px;
+            width: 450px;
             padding: 15px;
             background: white;
             border-radius: 8px;
@@ -54,17 +54,19 @@
 <body>
 
 {% block content %}
-    <h2>Deals</h2>
-    <div class="products-container">
-        {% for product in products %}
-        <div class="product-card">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            <h3>{{ product.name }}</h3>
-            <p>Price: ${{ product.price }}</p>
-            <a href="{% url 'product_detail' product.id %}">View Details</a>
-        </div>
-        {% endfor %}
+<h2>{{ category_name|title }}</h2>
+
+<div class="products-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        <h3>{{ product.name }}</h3>
+        <p>${{ product.price }}</p>
     </div>
+    {% empty %}
+    <p>No products found in this category.</p>
+    {% endfor %}
+</div>
 {% endblock %}
 
 </body>

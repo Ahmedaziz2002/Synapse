@@ -56,7 +56,7 @@ ROOT_URLCONF = 'Synapse.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/"templates"],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,10 +64,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'accounts.context_processors.categories_context',
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'Synapse.wsgi.application'
 
@@ -124,7 +126,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static/images'),
 ]
 
 # Default primary key field type
@@ -134,3 +136,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL="/dashboard/"
 LOGOUT_REDIRECT_URL="/login/"
+
+
+MEDIA_URL = '/accounts/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'accounts/media')

@@ -122,23 +122,23 @@ body {
                     <i class="fas fa-tachometer-alt"></i> Home
                 </a>
             </li>
-    
+
             <li class="category-item">
                 <a href="#" class="toggle-categories">
                     <i class="fas fa-list"></i> Categories
                     <i class="fas fa-chevron-down"></i> 
                 </a>
                 <ul class="categories-list">
-                    <li><a href="#"><i class="fas fa-mobile-alt"></i> Electronics</a></li>
-                    <li><a href="#"><i class="fas fa-tshirt"></i> Fashion</a></li>
-                    <li><a href="#"><i class="fas fa-couch"></i> Home & Furniture</a></li>
-                    <li><a href="#"><i class="fas fa-car"></i> Automobiles</a></li>
+                    <li><a href="{% url 'products_by_category' 'electronics' %}"><i class="fas fa-mobile-alt"></i> Electronics</a></li>
+                    <li><a href="{% url 'products_by_category' 'fashion' %}"><i class="fas fa-tshirt"></i> Fashion</a></li>
+                    <li><a href="{% url 'products_by_category' 'home' %}"><i class="fas fa-couch"></i> Home & Furniture</a></li>
+                    <li><a href="{% url 'products_by_category' 'automobiles' %}"><i class="fas fa-car"></i> Automobiles</a></li>
                 </ul>
             </li>
-    
+            
             <li><a href="{% url 'deals' %}"><i class="fas fa-tags"></i> Deals</a></li>
-            <li><a href="#"><i class="fas fa-shopping-cart"></i> Orders</a></li>
-            <li><a href="#"><i class="fas fa-shopping-bag"></i> Cart</a></li>
+            <li><a href="{% url 'order_summary' %}"><i class="fas fa-shopping-cart"></i> Orders</a></li>
+            <li><a href="{% url 'cart' %}"><i class="fas fa-shopping-bag"></i> Cart</a></li>
             <li>
                 <a href="{% url 'profile' %}">
                     <i class="fas fa-user"></i> Profile
@@ -155,28 +155,20 @@ body {
         <section class="trending">
             <h2>Trending Items</h2>
             <div class="products-grid">
-                {% load static %}
-
+        
+                {% for product in trending_products %}
                 <div class="product-card">
-                    <img src="{% static 'images/shoes.webp' %}" alt="Shoes">
-                    <h3>Casual Shoes</h3>
-                    <p>$40.00</p>
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                    <p>${{ product.price }}</p>
                 </div>
-                
-                <div class="product-card">
-                    <img src="{% static 'images/headphones.jpg' %}" alt="Headphones">
-                    <h3>Wireless Headphones</h3>
-                    <p>$54.00</p>
-                </div>
-                
-                <div class="product-card">
-                    <img src="{% static 'images/apple-m2.jpg' %}" alt="Laptop">
-                    <h3>Apple M2 Laptop</h3>
-                    <p>$1,200.00</p>
-                </div>
-                
+                {% empty %}
+                <p>No trending products available.</p>
+                {% endfor %}
+        
             </div>
         </section>
+        
         
     
         <section class="offers">

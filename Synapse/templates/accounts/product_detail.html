@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+</head>
+<body>
+    
+{% block content %}
+<div class="product-detail">
+    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    <h2>{{ product.name }}</h2>
+    <p>{{ product.description }}</p>
+    <p>Price: ${{ product.price }}</p>
+    <form action="{% url 'add_to_cart' product.id %}" method="POST">
+        {% csrf_token %}
+        <label>Quantity:</label>
+        <input type="number" name="quantity" value="1" min="1">
+        <button type="submit">Add to Cart</button>
+    </form>
+</div>
+{% endblock %}
+
+</body>
+</html>

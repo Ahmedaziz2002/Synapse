@@ -1,11 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import update_session_auth_hash
+from .models import Product,CartItem,Cart,Order
+
 
 # LOGIN VIEW
+@csrf_exempt
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -64,11 +68,9 @@ def logout_view(request):
 # DASHBOARD VIEW
 @login_required
 def dashboard_view(request):
-    return render(request, "accounts/dashboard.html")
+    trending_products = Product.objects.all()[:3]  # Fetch the first 3 products
+    return render(request, "accounts/dashboard.html", {'trending_products': trending_products})
 
-# DEALS VIEW
-def deals(request):
-    return render(request, "accounts/deals.html")
 
 # EDIT PROFILE VIEW (No profile requirement)
 @login_required
@@ -109,3 +111,94 @@ def edit_profile_view(request):
 @login_required
 def profile_view(request):
     return render(request, "accounts/profile.html", {"user": request.user})
+
+
+def deals_view(request):
+    products = Product.objects.all()  # Fetch all products
+    return render(request, 'accounts/deals.html', {'products': products})
+
+def product_detail_view(request, product_id):
+    product = get_object_or_404(Product, id=product_id)  # Fetch product by ID
+    return render(request, 'accounts/product_detail.html', {'product': product})
+
+
+def add_to_cart(request, product_id):
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            messages.error(request, "You must be logged in to add items to the cart.")
+            return redirect("login")
+
+        product = Product.objects.get(id=product_id)
+        quantity = int(request.POST.get("quantity", 1))
+
+        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product)
+        
+        if not created:
+            cart_item.quantity += quantity
+        else:
+            cart_item.quantity = quantity
+        
+        cart_item.save()
+        messages.success(request, "Item added to cart!")
+        return redirect("cart")
+    
+def cart_view(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "You must be logged in to view the cart.")
+        return redirect("login")
+
+    cart_items = Cart.objects.filter(user=request.user)
+    total = sum(item.total_price() for item in cart_items)
+
+    return render(request, 'accounts/cart.html', {'cart_items': cart_items, 'total': total})
+
+
+def remove_from_cart(request, cart_id):
+    cart_item = get_object_or_404(Cart, id=cart_id, user=request.user)
+    cart_item.delete()
+    messages.success(request, "Item removed from cart.")
+    return redirect("cart")
+
+
+def checkout_view(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "You must be logged in to checkout.")
+        return redirect("login")
+
+    cart_items = Cart.objects.filter(user=request.user)
+    if not cart_items.exists():
+        messages.error(request, "Your cart is empty.")
+        return redirect("cart")
+
+    total_price = sum(item.total_price() for item in cart_items)
+
+    # Create Order
+    order = Order.objects.create(user=request.user, total_amount=total_price)
+
+    # Clear the Cart
+    cart_items.delete()
+
+    messages.success(request, "Order placed successfully!")
+    return redirect("order_summary")
+
+
+
+def order_summary_view(request):
+    order = Order.objects.filter(user=request.user).order_by('-created_at').first()  # Remove complete=True
+    return render(request, 'accounts/order_summary.html', {'order': order})
+
+
+def product_list_by_category(request, category_name):
+    products = Product.objects.filter(category=category_name)
+    categories = [
+        ('electronics', 'Electronics'),
+        ('fashion', 'Fashion'),
+        ('home', 'Home & Furniture'),
+        ('automobiles', 'Automobiles')
+    ]
+
+    return render(request, 'accounts/products_by_category.html', {
+        'products': products,
+        'category_name': category_name,
+        'categories': categories,
+    })
