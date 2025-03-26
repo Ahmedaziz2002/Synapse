@@ -194,7 +194,8 @@ def product_list_by_category(request, category_name):
         ('electronics', 'Electronics'),
         ('fashion', 'Fashion'),
         ('home', 'Home & Furniture'),
-        ('automobiles', 'Automobiles')
+        ('automobiles', 'Automobiles'),
+        ('books', 'Books'),
     ]
 
     return render(request, 'accounts/products_by_category.html', {
