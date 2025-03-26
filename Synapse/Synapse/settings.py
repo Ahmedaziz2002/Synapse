@@ -140,3 +140,9 @@ LOGOUT_REDIRECT_URL="/login/"
 
 MEDIA_URL = '/accounts/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'accounts/media')
+
+
+
+
+#nimecommit
+# ####
