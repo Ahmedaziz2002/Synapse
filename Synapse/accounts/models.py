@@ -34,7 +34,7 @@ class Product(models.Model):
         ('electronics', 'Electronics'),
         ('fashion', 'Fashion'),
         ('home', 'Home & Furniture'),
-        ('automobiles', 'Automobiles')
+
     ],null=True,blank=True)
 
     def __str__(self):

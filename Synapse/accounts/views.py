@@ -68,7 +68,7 @@ def logout_view(request):
 # DASHBOARD VIEW
 @login_required
 def dashboard_view(request):
-    trending_products = Product.objects.all()[:3]  # Fetch the first 3 products
+    trending_products = Product.objects.all()[:8]  # Fetch the first 3 products
     return render(request, "accounts/dashboard.html", {'trending_products': trending_products})
 
 
@@ -139,8 +139,8 @@ def add_to_cart(request, product_id):
             cart_item.quantity = quantity
         
         cart_item.save()
-        messages.success(request, "Item added to cart!")
-        return redirect("cart")
+        messages.success(request, f"{product.name} added to cart!")
+        return redirect("deals")
     
 def cart_view(request):
     if not request.user.is_authenticated:
@@ -151,13 +151,6 @@ def cart_view(request):
     total = sum(item.total_price() for item in cart_items)
 
     return render(request, 'accounts/cart.html', {'cart_items': cart_items, 'total': total})
-
-
-def remove_from_cart(request, cart_id):
-    cart_item = get_object_or_404(Cart, id=cart_id, user=request.user)
-    cart_item.delete()
-    messages.success(request, "Item removed from cart.")
-    return redirect("cart")
 
 
 def checkout_view(request):
@@ -181,6 +174,30 @@ def checkout_view(request):
     messages.success(request, "Order placed successfully!")
     return redirect("order_summary")
 
+from django.shortcuts import redirect
+from django.contrib import messages
+from .models import Cart, Order
+
+def paypal_success_view(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to continue.")
+        return redirect("login")
+
+    cart_items = Cart.objects.filter(user=request.user)
+    if not cart_items.exists():
+        messages.error(request, "Your cart is empty.")
+        return redirect("cart")
+
+    total_price = sum(item.total_price() for item in cart_items)
+
+    # Create order
+    order = Order.objects.create(user=request.user, total_amount=total_price)
+
+    # Clear the cart
+    cart_items.delete()
+
+    messages.success(request, "Your PayPal payment was successful! Order placed.")
+    return redirect("order_summary")
 
 
 def order_summary_view(request):
@@ -194,7 +211,6 @@ def product_list_by_category(request, category_name):
         ('electronics', 'Electronics'),
         ('fashion', 'Fashion'),
         ('home', 'Home & Furniture'),
-        ('automobiles', 'Automobiles')
     ]
 
     return render(request, 'accounts/products_by_category.html', {
@@ -202,3 +218,17 @@ def product_list_by_category(request, category_name):
         'category_name': category_name,
         'categories': categories,
     })
+
+def remove_from_cart(request, item_id):
+    if request.method == "POST":
+        cart_item = get_object_or_404(Cart, id=item_id, user=request.user)
+        
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+            messages.success(request, "Item quantity decreased.")
+        else:
+            cart_item.delete()
+            messages.success(request, "Item removed from cart.")
+    
+    return redirect('cart')

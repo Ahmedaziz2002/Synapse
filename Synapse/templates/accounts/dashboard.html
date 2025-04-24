@@ -4,116 +4,222 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <title>Dashboard</title>
     <style>
-body {
-    display: flex;
-    font-family: Arial, sans-serif;
-    margin: 0;
-}
+        body {
+            display: flex;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f5f7fa; /* Matching background color */
+        }
 
-.sidebar {
-    width: 200px;
-    background: #b5b9bd;
-    padding: 20px;
-    height: 100vh;
-    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
-}
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background-color: #2c3e50;
+            padding: 20px;
+            height: 100vh;
+            color: white;
+            box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
+        }
 
-.sidebar h2 {
-    font-size: 22px;
-}
+        .sidebar h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
 
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
 
-.sidebar ul li {
-    margin: 15px 0;
-}
+        .sidebar ul li {
+            margin: 20px 0;
+        }
 
-.sidebar ul li a {
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    padding: 10px;
-    transition: 0.3s ease-in-out;
-    text-decoration: none;
-    color: #333;
-}
+        .sidebar ul li a {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s ease-in-out;
+            border-radius: 6px;
+        }
 
-.sidebar ul li a i {
-    margin-right: 10px;
-    font-size: 18px;
-    color: #007bff;
-}
+        .sidebar ul li a i {
+            margin-right: 12px;
+            font-size: 18px;
+        }
 
-.sidebar ul li a:hover i {
-    color: #0056b3;
-}
+        .sidebar ul li a:hover {
+            background-color: #34495e;
+            transform: translateX(5px);
+        }
 
-.sidebar ul li a:hover {
-    background-color: #e9ecef;
-    border-radius: 5px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-}
+        .sidebar ul li.active a {
+            background-color: #1abc9c;
+            color: white;
+        }
 
+        .sidebar ul li.active a i {
+            color: white;
+        }
 
-.sidebar ul li.active a {
-    background: #007bff;
-    color: white;
-    border-radius: 5px;
-}
+        /* Categories Dropdown */
+        .category-item {
+            position: relative;
+        }
 
-.sidebar ul li.active a i {
-    color: white;
-}
+        .categories-list {
+            display: none;
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 5px;
+            background: #34495e;
+            border-radius: 6px;
+        }
 
-/* Categories Dropdown */
-.category-item {
-    position: relative;
-}
+        .categories-list li {
+            padding: 8px 0;
+        }
 
-.categories-list {
-    display: none;
-    list-style: none;
-    padding-left: 20px;
-    margin-top: 5px;
-    background: #c4c9cd;
-    border-radius: 5px;
-}
+        .categories-list a {
+            color: white;
+            font-size: 14px;
+            font-weight: normal;
+            display: block;
+            padding: 5px 15px;
+        }
 
-.categories-list li {
-    padding: 8px 0;
-}
+        .categories-list a:hover {
+            background: #1abc9c;
+            border-radius: 5px;
+        }
 
-.categories-list a {
-    font-size: 14px;
-    color: #444;
-    font-weight: normal;
-    display: block;
-    padding: 5px 15px;
-}
+        /* Product Cards */
+        .product-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+        }
 
-.categories-list a:hover {
-    background: #d1d5d9;
-    border-radius: 5px;
-}
-.product-card img {
-    width: 100%;
-    height: 180px; 
-    object-fit: cover; 
-    border-radius: 5px;  
-}
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
 
+        .product-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
 
+        .product-card h3 {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .product-card p {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .product-card button {
+            background-color: #28a745; /* Matching Add to Cart button color */
+            color: white;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .product-card button:hover {
+            background-color: #1e7e34;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            padding: 20px;
+            justify-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        header {
+            padding: 20px;
+            background-color: #fff;
+            border-bottom: 2px solid #ddd;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            margin: 0;
+        }
+
+        /* View Cart Button (fixed at the bottom) */
+        .view-cart-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            background-color: #007BFF;
+            color: white;
+            font-weight: 600;
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease;
+        }
+
+        .view-cart-btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* Cart Count Badge */
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            padding: 5px 8px;
+            border-radius: 50%;
+        }
 
     </style>
 </head>
 <body>
 
+    <!-- Sidebar -->
     <aside class="sidebar">
         <h2>Synapse</h2>
         <ul>
@@ -122,76 +228,69 @@ body {
                     <i class="fas fa-tachometer-alt"></i> Home
                 </a>
             </li>
-
             <li class="category-item">
                 <a href="#" class="toggle-categories">
                     <i class="fas fa-list"></i> Categories
-                    <i class="fas fa-chevron-down"></i> 
+                    <i class="fas fa-chevron-down"></i>
                 </a>
                 <ul class="categories-list">
                     <li><a href="{% url 'products_by_category' 'electronics' %}"><i class="fas fa-mobile-alt"></i> Electronics</a></li>
                     <li><a href="{% url 'products_by_category' 'fashion' %}"><i class="fas fa-tshirt"></i> Fashion</a></li>
                     <li><a href="{% url 'products_by_category' 'home' %}"><i class="fas fa-couch"></i> Home & Furniture</a></li>
-                    <li><a href="{% url 'products_by_category' 'automobiles' %}"><i class="fas fa-car"></i> Automobiles</a></li>
                 </ul>
             </li>
-            
             <li><a href="{% url 'deals' %}"><i class="fas fa-tags"></i> Deals</a></li>
             <li><a href="{% url 'order_summary' %}"><i class="fas fa-shopping-cart"></i> Orders</a></li>
             <li><a href="{% url 'cart' %}"><i class="fas fa-shopping-bag"></i> Cart</a></li>
-            <li>
-                <a href="{% url 'profile' %}">
-                    <i class="fas fa-user"></i> Profile
-                </a>
-            
+            <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
         </ul>
     </aside>
-    
+
+    <!-- Main Content -->
     <main class="content">
         <header>
             <h1>Welcome, {{ user.username }}!</h1>
         </header>
-    
+
         <section class="trending">
             <h2>Trending Items</h2>
             <div class="products-grid">
-        
                 {% for product in trending_products %}
                 <div class="product-card">
                     <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     <h3>{{ product.name }}</h3>
                     <p>${{ product.price }}</p>
+
+                    <!-- Add to Cart Form -->
+                    <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit">Add to Cart</button>
+                    </form>
                 </div>
                 {% empty %}
                 <p>No trending products available.</p>
                 {% endfor %}
-        
             </div>
         </section>
-        
-        
-    
-        <section class="offers">
-            <div class="offer-card">Get 10% Off</div>
-            <div class="offer-card">Get 20% Off</div>
-        </section>
     </main>
-    
+
+    <!-- View Cart Button -->
+    <a href="{% url 'cart' %}" class="view-cart-btn">
+        View Cart 
+        {% if request.user.is_authenticated %}
+        <span class="cart-badge">{{ request.user.cart.item_count }}</span>
+        {% endif %}
+    </a>
+
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let toggleCategories = document.querySelector(".toggle-categories");
-        let categoriesList = document.querySelector(".categories-list");
-    
-        toggleCategories.addEventListener("click", function (event) {
-            event.preventDefault();
-            if (categoriesList.style.display === "block") {
-                categoriesList.style.display = "none";
-            } else {
-                categoriesList.style.display = "block";
-            }
+        // Toggle category dropdown
+        document.querySelectorAll('.toggle-categories').forEach(item => {
+            item.addEventListener('click', () => {
+                const categoriesList = item.parentElement.querySelector('.categories-list');
+                categoriesList.style.display = categoriesList.style.display === 'block' ? 'none' : 'block';
+            });
         });
-    });
     </script>
-    
 </body>
 </html>

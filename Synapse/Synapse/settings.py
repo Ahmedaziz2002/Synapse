@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'UTC' 
 
 USE_I18N = True
 
@@ -139,4 +139,9 @@ LOGOUT_REDIRECT_URL="/login/"
 
 
 MEDIA_URL = '/accounts/media/'
+<<<<<<< HEAD
 MEDIA_ROOT = os.path.join(BASE_DIR, 'accounts/media')
+=======
+MEDIA_ROOT = os.path.join(BASE_DIR, 'accounts/media')
+
+>>>>>>> ab35545911ccc6b54daf9f3de022e1c93a04b2c2
