@@ -90,7 +90,10 @@
             color: #333;
         }
 
-        #paypal-button-container {
+        .paypal-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin-top: 20px;
         }
     </style>
@@ -134,38 +137,39 @@
     </div>
 
     <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AQq_wpI12kNEknk-DB4xG_K-tNMyBfgwXpQgViUarfplUu3JRTlByQBIjDojMZSmiUMqkX1RZ__OUR-Q&currency=USD"></script>
 
     <!-- Button that triggers PayPal -->
     <button id="start-paypal-btn">Pay with PayPal</button>
 
-    <!-- PayPal container -->
-    <div id="paypal-button-container" style="display: none;"></div>
+    <!-- Centered PayPal Button -->
+    <div class="paypal-center">
+        <div id="paypal-button-test"></div>
+    </div>
 
     <!-- Go Back Home -->
     <a href="{% url 'dashboard' %}" class="btn">Back Home</a>
-    <div id="paypal-button-test"></div>
-<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
-<script>
-  paypal.Buttons({
-    createOrder: function(data, actions) {
-      return actions.order.create({
-        purchase_units: [{
-          amount: {
-            value: '10.00'
-          }
-        }]
-      });
-    },
-    onApprove: function(data, actions) {
-      return actions.order.capture().then(function(details) {
-        alert('Transaction completed by ' + details.payer.name.given_name);
-      });
-    }
-  }).render('#paypal-button-test');
-</script>
 
-    
+    <script>
+        var total = '{{ total }}';
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: parseFloat(total).toFixed(2)
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                });
+            }
+        }).render('#paypal-button-test');
+    </script>
+
     {% else %}
     <p class="empty-cart-message">Your cart is empty.</p>
     {% endif %}
