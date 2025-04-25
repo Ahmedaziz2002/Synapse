@@ -147,12 +147,13 @@
     <div id="paypal-button-test"></div>
 <script src="https://www.paypal.com/sdk/js?client-id=AQq_wpI12kNEknk-DB4xG_K-tNMyBfgwXpQgViUarfplUu3JRTlByQBIjDojMZSmiUMqkX1RZ__OUR-Q&currency=USD"></script>
 <script>
+    var total = '{{ total }}';
   paypal.Buttons({
     createOrder: function(data, actions) {
       return actions.order.create({
         purchase_units: [{
           amount: {
-            value: '10.00'
+            value: parseFloat(total).toFixed(2)
           }
         }]
       });
