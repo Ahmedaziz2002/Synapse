@@ -56,7 +56,7 @@ a{
     <h2>Login</h2>
     {% if messages %}
       {% for message in messages %}
-        <p style="color:red;">{{message}}</p>
+        <p style="color:red;display:none;">{{message}}</p>
       {% endfor %}
     {% endif %}
     <form method="POST">

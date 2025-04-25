@@ -191,7 +191,7 @@ def paypal_success_view(request):
 
     order = Order.objects.create(user=request.user, total_amount=total_price)
 
-    cart_items.delete()
+    cart.delete()
 
     messages.success(request, "Payment successful! Your order has been placed.")
 
