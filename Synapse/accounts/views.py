@@ -178,26 +178,24 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from .models import Cart, Order
 
-def paypal_success_view(request):
-    if not request.user.is_authenticated:
-        messages.error(request, "Please login to continue.")
-        return redirect("login")
 
+@login_required
+def paypal_success_view(request):
     cart_items = Cart.objects.filter(user=request.user)
+
     if not cart_items.exists():
         messages.error(request, "Your cart is empty.")
         return redirect("cart")
 
     total_price = sum(item.total_price() for item in cart_items)
 
-    # Create order
     order = Order.objects.create(user=request.user, total_amount=total_price)
 
-    # Clear the cart
     cart_items.delete()
 
-    messages.success(request, "Your PayPal payment was successful! Order placed.")
-    return redirect("order_summary")
+    messages.success(request, "Payment successful! Your order has been placed.")
+
+    return redirect("dashboard") 
 
 
 def order_summary_view(request):
