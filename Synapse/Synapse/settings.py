@@ -80,15 +80,9 @@ WSGI_APPLICATION = 'Synapse.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.mysql',
-<<<<<<< HEAD
         'NAME':'synapse',
         'USER':'root',
         'PASSWORD':'m9r19db',
-=======
-        'NAME':'mydb',
-        'USER':'root',
-        'PASSWORD':'seth2019',
->>>>>>> 22c83ce5eb48f46fa7953568d006eeb171267947
         'HOST':'localhost',
         'PORT':'3306',
     }
